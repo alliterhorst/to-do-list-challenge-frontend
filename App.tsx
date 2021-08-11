@@ -11,6 +11,7 @@ import { AppProvider } from './src/context/app.context';
 import { MenuProvider } from './src/context/menu.context';
 import { appTheme } from './src/theme';
 import { StepProvider } from './src/context/step.context';
+import { TaskProvider } from './src/context/task.context';
 
 const ROBOTO_400 = require('./src/assets/fonts/Roboto-Regular.ttf');
 const ROBOTO_500 = require('./src/assets/fonts/Roboto-Medium.ttf');
@@ -32,10 +33,12 @@ export default function App(): JSX.Element {
         <AppProvider>
           <MenuProvider>
             <StepProvider>
-              <>
-                <Navigation />
-                <StatusBar />
-              </>
+              <TaskProvider>
+                <>
+                  <Navigation />
+                  <StatusBar />
+                </>
+              </TaskProvider>
             </StepProvider>
           </MenuProvider>
         </AppProvider>

@@ -4,8 +4,6 @@ const Wrapper = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
-  border-width: 0;
-  border-style: none;
   background-color: transparent;
   min-width: ${({ theme }): string => `${theme.units.mainWidth - 2}px`};
   min-height: ${({ theme }): string => `${theme.units.mainHeight}px`}; ;

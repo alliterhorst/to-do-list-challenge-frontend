@@ -1,5 +1,5 @@
 import React from 'react';
-import { Linking, Modal, View } from 'react-native';
+import { Linking, Modal } from 'react-native';
 import { colors } from '../theme/colors';
 import { MaterialIconComponent } from './material-icon/material-icon.component';
 import { TaskDetailStyle } from '../style/task-detail.style';
@@ -25,6 +25,7 @@ const {
   TaskAfterScroll,
   TaskSegmentView,
   TaskSegmentTitle,
+  ViewMarginTop,
 } = TaskDetailStyle;
 
 export function TaskDetailComponent({
@@ -65,79 +66,84 @@ export function TaskDetailComponent({
             />
           </TaskViewButtonClose>
           <TaskScrollView>
-            <TaskViewRow>
-              <MaterialIconComponent
-                name={
-                  task.status === TaskStatusEnum.PENDING
-                    ? 'checkbox-blank-outline'
-                    : 'checkbox-marked-outline'
-                }
-                color={
-                  task.status === TaskStatusEnum.PENDING
-                    ? 'secondary'
-                    : 'primary'
-                }
-              />
-              <TaskStatusText status={task.status}>
-                Tarefa {TaskStatusEnumObject[task.status].label}
-              </TaskStatusText>
-            </TaskViewRow>
-            <TaskSegmentView>
-              <TaskSegmentTitle>Descrição da Tarefa</TaskSegmentTitle>
-              <TaskDescription>{task.description}</TaskDescription>
-            </TaskSegmentView>
-            <TaskSegmentView>
-              <TaskSegmentTitle>Responsável</TaskSegmentTitle>
-              <TaskDescription>{task.userName}</TaskDescription>
-              <TaskDescription
-                style={{ color: colors.info, textDecorationLine: 'underline' }}
-                onPress={(): void => {
-                  Linking.openURL(`mailto:${task.userEmail}`);
-                }}
-              >
-                {task.userEmail}
-              </TaskDescription>
-              <TaskDescription>
-                Atualizado em: {dateFormat(task.updatedAt)}
-              </TaskDescription>
-            </TaskSegmentView>
-            <View style={{ marginTop: '12px' }}>
-              <ButtonComponent
-                disabled={disableChangeStatusButton}
-                variantName={
-                  task.status === TaskStatusEnum.PENDING
-                    ? 'primary'
-                    : 'secondary'
-                }
-                onPress={(): void =>
-                  changeTaskStatus(
-                    task,
+            <>
+              <TaskViewRow>
+                <MaterialIconComponent
+                  name={
                     task.status === TaskStatusEnum.PENDING
-                      ? TaskStatusEnum.DONE
-                      : TaskStatusEnum.PENDING,
-                  )
-                }
-              >
-                {`Mover para "${
-                  task.status === TaskStatusEnum.PENDING
-                    ? TaskStatusLabelEnum.DONE
-                    : TaskStatusLabelEnum.PENDING
-                }"`}
-              </ButtonComponent>
-            </View>
+                      ? 'checkbox-blank-outline'
+                      : 'checkbox-marked-outline'
+                  }
+                  color={
+                    task.status === TaskStatusEnum.PENDING
+                      ? 'secondary'
+                      : 'primary'
+                  }
+                />
+                <TaskStatusText status={task.status}>
+                  Tarefa {TaskStatusEnumObject[task.status].label}
+                </TaskStatusText>
+              </TaskViewRow>
+              <TaskSegmentView>
+                <TaskSegmentTitle>Descrição da Tarefa</TaskSegmentTitle>
+                <TaskDescription>{task.description}</TaskDescription>
+              </TaskSegmentView>
+              <TaskSegmentView>
+                <TaskSegmentTitle>Responsável</TaskSegmentTitle>
+                <TaskDescription>{task.userName}</TaskDescription>
+                <TaskDescription
+                  style={{
+                    color: colors.info,
+                    textDecorationLine: 'underline',
+                  }}
+                  onPress={(): void => {
+                    Linking.openURL(`mailto:${task.userEmail}`);
+                  }}
+                >
+                  {task.userEmail}
+                </TaskDescription>
+                <TaskDescription>
+                  Atualizado em: {dateFormat(task.updatedAt)}
+                </TaskDescription>
+              </TaskSegmentView>
+              <ViewMarginTop>
+                <ButtonComponent
+                  disabled={disableChangeStatusButton}
+                  variantName={
+                    task.status === TaskStatusEnum.PENDING
+                      ? 'primary'
+                      : 'secondary'
+                  }
+                  onPress={(): void =>
+                    changeTaskStatus(
+                      task,
+                      task.status === TaskStatusEnum.PENDING
+                        ? TaskStatusEnum.DONE
+                        : TaskStatusEnum.PENDING,
+                    )
+                  }
+                >
+                  {`Marcar como "${
+                    task.status === TaskStatusEnum.PENDING
+                      ? TaskStatusLabelEnum.DONE
+                      : TaskStatusLabelEnum.PENDING
+                  }"`}
+                </ButtonComponent>
+              </ViewMarginTop>
 
-            <TaskSegmentView>
-              <TaskSegmentTitle>Histórico da tarefa</TaskSegmentTitle>
-              {task.taskHistory?.map(taskHistory => (
-                <TaskViewHistory key={taskHistory.id}>
-                  <TaskTextHistory>
-                    {`Movido para "${
-                      TaskStatusEnumObject[taskHistory.status].label
-                    }" - ${dateFormat(taskHistory.createdAt)}`}
-                  </TaskTextHistory>
-                </TaskViewHistory>
-              ))}
-            </TaskSegmentView>
+              <TaskSegmentView>
+                <TaskSegmentTitle>Histórico da tarefa</TaskSegmentTitle>
+                {task.taskHistory?.map(taskHistory => (
+                  <TaskViewHistory key={taskHistory.id}>
+                    <TaskTextHistory>
+                      {`Marcado como "${
+                        TaskStatusEnumObject[taskHistory.status].label
+                      }" em ${dateFormat(taskHistory.createdAt)}`}
+                    </TaskTextHistory>
+                  </TaskViewHistory>
+                ))}
+              </TaskSegmentView>
+            </>
           </TaskScrollView>
           <TaskAfterScroll />
         </TaskViewContainer>

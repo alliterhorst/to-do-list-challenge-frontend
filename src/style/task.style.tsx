@@ -1,5 +1,4 @@
-import { Platform } from 'react-native';
-import styled, { css } from 'styled-components/native';
+import styled from 'styled-components/native';
 
 const ViewScreen = styled.View`
   flex: 1;
@@ -7,9 +6,8 @@ const ViewScreen = styled.View`
 
 const ScrollView = styled.ScrollView``;
 
-const ViewTask = styled.TouchableHighlight`
-  padding: ${({ theme }): string => theme.units.padding};
-  ${Platform.select({
+/*
+${Platform.select({
     web: css`
       :hover {
         background-color: black;
@@ -19,6 +17,10 @@ const ViewTask = styled.TouchableHighlight`
       }
     `,
   })};
+*/
+
+const ViewTask = styled.TouchableOpacity`
+  padding: ${({ theme }): string => theme.units.padding};
 `;
 
 const TextScreen = styled.Text``;

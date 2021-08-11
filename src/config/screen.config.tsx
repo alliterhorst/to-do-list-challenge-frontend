@@ -36,6 +36,7 @@ export const screensConfigObject: ScreenListType = {
     steps: [
       ScreenStepEnum.TASK_SCREEN_INITIAL,
       ScreenStepEnum.TASK_SCREEN_DOWNLOADING,
+      ScreenStepEnum.TASK_SCREEN_DOWNLOAD_FAILURE,
       ScreenStepEnum.TASK_SCREEN_ENTER_NEW_TASK,
       ScreenStepEnum.TASK_SCREEN_PROCESSING_TASK_ADDITION,
       ScreenStepEnum.TASK_SCREEN_SHOW_DETAIL,

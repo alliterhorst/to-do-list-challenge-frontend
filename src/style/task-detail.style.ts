@@ -13,7 +13,7 @@ const TaskViewModal = styled.View`
 
 const TaskViewContainer = styled.View`
   width: ${({ theme }): string => `${theme.units.mainWidth - 26}px`};
-  height: ${({ theme }): string => `${theme.units.mainHeight - 260}px`};
+  /* height: ${({ theme }): string => `${theme.units.mainHeight - 26}px`}; */
   max-height: ${({ theme }): string => `${theme.units.mainHeight - 26}px`};
   max-width: 500px;
   border-radius: ${({ theme }): string => theme.units.borderRadius};
@@ -155,7 +155,7 @@ const TaskSegmentTitle = styled.Text<{ color?: ColorsType }>`
   font-family: ${({ theme }): string => theme.fonts.roboto_500};
   background-color: ${({ theme }): string => theme.colors.background};
   color: ${({ theme, color }): string =>
-    color ? theme.colors[color] : theme.colors.danger};
+    color ? theme.colors[color] : theme.colors.secondary};
   position: relative;
   top: -16px;
   margin-bottom: -16px;
@@ -189,6 +189,10 @@ const TaskSeparatorItem = styled.View`
   border-bottom-width: 1px;
 `;
 
+const ViewMarginTop = styled.View`
+  margin-top: 12px;
+`;
+
 export const TaskDetailStyle = {
   TaskViewModal,
   TaskViewContainer,
@@ -208,4 +212,5 @@ export const TaskDetailStyle = {
   MaterialIconViewRow,
   TaskSegmentView,
   TaskSegmentTitle,
+  ViewMarginTop,
 };

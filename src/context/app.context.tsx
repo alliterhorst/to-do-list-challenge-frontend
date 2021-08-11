@@ -24,7 +24,7 @@ export function AppProvider({
 }: {
   children: JSX.Element;
 }): JSX.Element {
-  const [isOfflineMode, setIsOfflineMode] = useState<boolean>(false);
+  const [isOfflineMode, setIsOfflineMode] = useState<boolean>(true);
   const [serverUrl, setServerUrl] = useState<string>(defaultServerUrl);
   const resetServerUtl = useCallback(
     () => setServerUrl(defaultServerUrl),

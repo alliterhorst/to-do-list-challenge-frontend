@@ -3,6 +3,12 @@ import { TaskStatusEnum } from '../enum/task-status.enum';
 import { RequestConfigInterface } from '../interface/request-config.interface';
 import { TaskToPostInterface } from '../interface/task-to-post.interface';
 import { TaskInterface } from '../interface/task.interface';
+import {
+  createTaskMock,
+  getTasksMock,
+  postWithoutTaskMock,
+  updateTaskStatusMock,
+} from '../mock/task.mock';
 import { backendApi } from './api';
 
 const prefix = '/api/tasks';
@@ -15,7 +21,7 @@ export const getTasks = async (params: {
 
   if (config.isOfflineMode) {
     await sleep(defaultMockSleep);
-    return [];
+    return getTasksMock();
   }
 
   const { data } = await backendApi.get<TaskInterface[]>(
@@ -32,7 +38,7 @@ export const postTask = async (params: {
 
   if (config.isOfflineMode) {
     await sleep(defaultMockSleep);
-    return null;
+    return createTaskMock(taskToPost);
   }
 
   const { data } = await backendApi.post<TaskInterface>(
@@ -44,21 +50,24 @@ export const postTask = async (params: {
 
 export const patchTask = async (params: {
   config: RequestConfigInterface;
-  taskId: string;
-  status: TaskStatusEnum;
+  task: TaskInterface;
   supervisorPassword?: string;
 }): Promise<TaskInterface> => {
-  const { config, taskId, status, supervisorPassword } = params;
+  const { config, task, supervisorPassword } = params;
+  const newStatus =
+    task.status === TaskStatusEnum.PENDING
+      ? TaskStatusEnum.DONE
+      : TaskStatusEnum.PENDING;
 
   if (config.isOfflineMode) {
     await sleep(defaultMockSleep);
-    return null;
+    return updateTaskStatusMock(task, newStatus);
   }
 
   const { data } = await backendApi.patch<TaskInterface>(
-    `${config.serverUrl}${prefix}/${taskId}`,
+    `${config.serverUrl}${prefix}/${task.id}`,
     {
-      status,
+      status: newStatus,
       supervisorPassword,
     },
   );
@@ -72,7 +81,7 @@ export const postWithoutTask = async (params: {
 
   if (config.isOfflineMode) {
     await sleep(defaultMockSleep);
-    return [];
+    return postWithoutTaskMock();
   }
 
   const { data } = await backendApi.post<TaskInterface[]>(

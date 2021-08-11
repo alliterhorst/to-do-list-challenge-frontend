@@ -2,11 +2,13 @@ import React from 'react';
 import { View } from 'react-native';
 import { MaterialIconComponent } from '../component/material-icon/material-icon.component';
 import { useStepContext } from '../context/step.context';
+import { useTaskContext } from '../context/task.context';
 import { ScreenNameEnum } from '../enum/screen-name.enum';
 import { ScreenStepEnum } from '../enum/screen-step.enum';
 import { StepComponentType } from '../type/step-component.type';
 
 export function TaskHeaderRight(): JSX.Element {
+  const { startTasksDownloading } = useTaskContext();
   const { screenStep, setScreenStep } = useStepContext();
   const currentScreenStep = screenStep?.Task;
   const step = currentScreenStep?.step;
@@ -17,12 +19,7 @@ export function TaskHeaderRight(): JSX.Element {
         <View style={{ marginRight: 16 }}>
           <MaterialIconComponent
             name="refresh"
-            onPress={(): void =>
-              setScreenStep(
-                ScreenNameEnum.Task,
-                ScreenStepEnum.TASK_SCREEN_DOWNLOADING,
-              )
-            }
+            onPress={startTasksDownloading}
           />
         </View>
         <View style={{ marginRight: 16 }}>
